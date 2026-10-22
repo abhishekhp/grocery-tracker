@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Subscribers — WRAL Grocery Tracker</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+</head>
+<body>
+  <header>
+    <h1>Subscribers</h1>
+    <p>Demo/admin view of everyone signed up for price updates.</p>
+  </header>
+  <main>
+    <div class="card">
+      <table>
+        <thead>
+          <tr><th>Email</th><th>Zip</th><th>Grocery list</th><th>Stores</th><th>Joined</th></tr>
+        </thead>
+        <tbody>
+          {% for s in subscribers %}
+          <tr>
+            <td>{{ s.email }}</td>
+            <td>{{ s.zip_code }}</td>
+            <td>{{ s.grocery_list }}</td>
+            <td>{{ s.stores }}</td>
+            <td>{{ s.created_at }}</td>
+          </tr>
+          {% else %}
+          <tr><td colspan="5">No subscribers yet — <a href="{{ url_for('index') }}">sign up here</a>.</td></tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </main>
+</body>
+</html>

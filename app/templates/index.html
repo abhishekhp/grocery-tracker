@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>WRAL Grocery Tracker</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+</head>
+<body>
+  <header>
+    <h1>🛒 WRAL Grocery Tracker</h1>
+    <p>Tell us what's on your list. An AI researcher checks every store for the lowest prices and emails you the savings.</p>
+  </header>
+
+  <main>
+    <div class="card">
+      {% with messages = get_flashed_messages() %}
+        {% if messages %}
+          {% for message in messages %}
+            <div class="flash">{{ message }}</div>
+          {% endfor %}
+        {% endif %}
+      {% endwith %}
+
+      <form action="{{ url_for('subscribe') }}" method="post">
+        <label for="email">Email address</label>
+        <input type="email" id="email" name="email" placeholder="you@example.com" required />
+
+        <label for="zip_code">Zip code (optional)</label>
+        <input type="text" id="zip_code" name="zip_code" placeholder="27601" />
+
+        <label for="grocery_list">Your grocery list</label>
+        <input type="text" id="grocery_list" name="grocery_list" placeholder="whole milk, eggs, bread, bananas, chicken breast" required />
+        <div class="hint">Comma-separated. We'll track these items every time the tracker runs.</div>
+
+        <label>Which stores should we check?</label>
+        <div class="store-grid">
+          {% for key, store in stores.items() %}
+            <label><input type="checkbox" name="stores" value="{{ key }}" checked /> {{ store.name }}</label>
+          {% endfor %}
+        </div>
+
+        <button type="submit">Subscribe to price updates</button>
+      </form>
+    </div>
+
+    <footer>
+      Built with a free, open-weight AI model and Browser MCP &middot;
+      <a href="{{ url_for('subscribers') }}">view demo subscribers</a>
+    </footer>
+  </main>
+</body>
+</html>
